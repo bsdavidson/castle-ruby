@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+require 'homebase'
+require 'trollop'
+
+BANNER = %(
+#{DATA}
+
+Usage: #{File.basename $PROGRAM_NAME} [options]
+
+Lookup your current public IP and update a Digital Ocean domain record with your
+new address.
+
+Options:
+)
+
+opts = Trollop.options do
+  banner BANNER
+  opt :domain, 'Domain name hosted with Digital Ocean', type: :string,
+                                                        required: true
+  opt :record, 'Subdomain to update', type: :string, required: true
+  opt :token, 'Digital Ocean API token', type: :string, required: true
+end
+
+begin
+  homebase = Homebase.new
+  result = homebase.update_record_with_public_ip(opts[:domain],
+                                                 opts[:record],
+                                                 opts[:token])
+  puts result[:ip]
+rescue => e
+  STDERR.puts "Error: #{e}"
+  exit 1
+end
+
+__END__
+
+  _    _  ____  __  __ ______ ____           _____ ______
+ | |  | |/ __ \|  \/  |  ____|  _ \   /\    / ____|  ____|  o____
+ | |__| | |  | | \  / | |__  | |_) | /  \  | (___ | |__     |\\//|
+ |  __  | |  | | |\/| |  __| |  _ < / /\ \  \___ \|  __|    |//\\|
+ | |  | | |__| | |  | | |____| |_) / ____ \ ____) | |____   |
+ |_|  |_|\____/|_|  |_|______|____/_/    \_\_____/|______|  |
