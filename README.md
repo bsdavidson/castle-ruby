@@ -1,5 +1,7 @@
 # Homebase
 
+**NOTE:** This gem has been replaced by a [Go version](https://github.com/bsdavidson/homebase) with the same functionality.  
+
 Homebase grabs your current public IP address and updates a Digital Ocean hostname
 to point to the IP.  You can use this to provide your own dynamic DNS for home
 computers.
